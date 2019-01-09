@@ -4,7 +4,7 @@
 
 ```hcl
 data git_repository tf {
-	path = "${path.module}"
+  path = "${path.module}"
 }
 
 resource "aws_vpc" "main" {
