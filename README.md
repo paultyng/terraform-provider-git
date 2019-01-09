@@ -3,7 +3,7 @@
 ## Usage
 
 ```hcl
-data git_repository tf {
+data "git_repository" "tf" {
   path = "${path.module}"
 }
 
