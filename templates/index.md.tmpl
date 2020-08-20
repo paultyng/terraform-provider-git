@@ -1,0 +1,17 @@
+---
+layout: ""
+page_title: "Provider: Git"
+description: |-
+  The Git provider provides resources to interact with a local Git repository.
+---
+
+# Git Provider
+
+The Git provider provides resources to interact with a local Git repository. Primarily this is useful
+for using your current commit hash or tag in resource labeling, etc.
+
+## Example Usage
+
+{{tffile "examples/data-sources/git_repository/data-source.tf"}}
+
+{{ .SchemaMarkdown | trimspace }}

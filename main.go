@@ -1,11 +1,13 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform/plugin"
-	"github.com/paultyng/terraform-provider-git/provider"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+
+	"github.com/paultyng/terraform-provider-git/internal/provider"
 )
 
 func main() {
 	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: provider.Provider})
+		ProviderFunc: provider.New,
+	})
 }
