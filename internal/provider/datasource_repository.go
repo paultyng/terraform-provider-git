@@ -18,6 +18,13 @@ func dataSourceRepository() *schema.Resource {
 				Description: "Path to the .git directory",
 			},
 
+			"detect_dot_git": {
+				Type:        schema.TypeBool,
+				Optional:    true,
+				Default:     false,
+				Description: "Defines whether parent directories should be walked until a .git directory or file is found",
+			},
+
 			"commit_hash": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -33,10 +40,11 @@ func dataSourceRepository() *schema.Resource {
 
 func dataSourceRepositoryRead(d *schema.ResourceData, meta interface{}) error {
 	path := d.Get("path").(string)
+	detectDotGit := d.Get("detect_dot_git").(bool)
 
 	log.Printf("[INFO] opening repository in %s", path)
 
-	repo, err := git.PlainOpen(path)
+	repo, err := git.PlainOpenWithOptions(path, &git.PlainOpenOptions{DetectDotGit: detectDotGit})
 	if err != nil {
 		log.Printf("[ERROR] err opening repo: %s", err)
 		return err
