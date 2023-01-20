@@ -47,6 +47,27 @@ func TestDataSourceRepository(t *testing.T) {
 					resource.TestCheckResourceAttr("data.git_repository.test", "commit_hash", strings.TrimSpace(string(expectedCommit))),
 				),
 			},
+			{
+				Config: testDataSourceRepositoryConfigDotGit(true),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("data.git_repository.test", "branch", strings.TrimSpace(string(expectedBranch))),
+					resource.TestCheckResourceAttr("data.git_repository.test", "commit_hash", strings.TrimSpace(string(expectedCommit))),
+				),
+			},
+			{
+				Config: testDataSourceRepositoryConfigPathDotGit(dir, true),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("data.git_repository.test", "branch", strings.TrimSpace(string(expectedBranch))),
+					resource.TestCheckResourceAttr("data.git_repository.test", "commit_hash", strings.TrimSpace(string(expectedCommit))),
+				),
+			},
+			{
+				Config: testDataSourceRepositoryConfigPathDotGit(dir, false),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr("data.git_repository.test", "branch", strings.TrimSpace(string(expectedBranch))),
+					resource.TestCheckResourceAttr("data.git_repository.test", "commit_hash", strings.TrimSpace(string(expectedCommit))),
+				),
+			},
 		},
 	})
 }
@@ -57,4 +78,21 @@ data "git_repository" "test" {
 	path = "%s"
 }
 `, path)
+}
+
+func testDataSourceRepositoryConfigDotGit(detectDotGit bool) string {
+	return fmt.Sprintf(`
+data "git_repository" "test" {
+	detect_dot_git = "%s"
+}
+`, detectDotGit)
+}
+
+func testDataSourceRepositoryConfigPathDotGit(path string, detectDotGit bool) string {
+	return fmt.Sprintf(`
+data "git_repository" "test" {
+        path = "%s"
+	detect_dot_git = "%s"
+}
+`, path, detectDotGit)
 }
